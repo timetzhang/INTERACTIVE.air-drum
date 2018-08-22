@@ -24,18 +24,20 @@ void setup()
   // fast as possible).  To use continuous timed mode
   // instead, provide a desired inter-measurement period in
   // ms (e.g. sensor.startContinuous(100)).
-  sensor.startContinuous();
+  sensor.startContinuous(100);
 }
 
 void loop()
 {
   int curDistance = sensor.readRangeContinuousMillimeters();
-  if (curDistance != lastDistance && curDistance < 550) {
+  if (curDistance != lastDistance && curDistance <= 550) {
     Serial.println(curDistance);
   }
+  if (curDistance != lastDistance && curDistance > 550) {
+    Serial.println(0);
+  }
   lastDistance = curDistance;
-
-  delay(100);
+  
   if (sensor.timeoutOccurred()) {
     Serial.println(" TIMEOUT");
   }

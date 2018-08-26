@@ -3,23 +3,29 @@ import ddf.minim.*;
 import ddf.minim.ugens.*;
 
 Minim minim;
+AudioOutput    audioOut;
 
+//drum
 AudioPlayer[]  drum = new AudioPlayer[4];
+
+//piano
 AudioPlayer[]  piano = new AudioPlayer[8];
+
+//scratch
 AudioPlayer    scratch;
 
 //fx
-AudioPlayer    fx;
+FilePlayer     fx;
+TickRate       rateControl;
 
+//sine osc generator
 
-//osc generator
-AudioOutput    oscOut;
 Oscil          oscA,oscB,oscC;
 Frequency      currentFreq;
 
 
 enum Instrument {
-  DRUM, PIANO, FX, SCRATCH, SINE
+  DRUM, PIANO, FX, SCRATCH, OSC
 }
 
 void initSound() {
@@ -40,14 +46,18 @@ void initSound() {
     break;
 
   case FX:
-    fx = minim.loadFile("fx/1.wav");
+    audioOut = minim.getLineOut();
+    fx = new FilePlayer( minim.loadFileStream("fx/1.wav") );
+    rateControl = new TickRate(1.f);
+    fx.patch(rateControl).patch(audioOut);
     break;
+    
   case SCRATCH:
     scratch = minim.loadFile("scratch/1.wav");
     break;
 
-  case SINE:
-    oscOut = minim.getLineOut();
+  case OSC:
+    audioOut = minim.getLineOut();
     oscA = new Oscil(440, 0.1f, Waves.SINE);
     oscB = new Oscil(523.25, 0.1f, Waves.SINE);
     oscC = new Oscil(659.25, 0.1f, Waves.SINE);

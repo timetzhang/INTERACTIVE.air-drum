@@ -3,7 +3,7 @@ import processing.serial.*;
 
 ArrayList<Particle> plist = new ArrayList<Particle>();
 Serial myPort;
-Instrument curInstrument = Instrument.PIANO;
+Instrument curInstrument = Instrument.SCRATCH;
 
 //sound vars
 boolean playable = true; //when distance is 0mm, set to true
@@ -72,6 +72,7 @@ void draw() {
 
     case SCRATCH:
       if (v != 0) {
+        scratch.setGain( 0.5);
         int cuePoint = int(map(v, 30, 550, 0, scratch.length()));
         scratch.setLoopPoints(cuePoint, cuePoint + 400);
         scratch.loop(1);

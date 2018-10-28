@@ -10,7 +10,6 @@
 VL53L0X sensor;
 int lastDistance = 0;
 int curDistance = 0;
-boolean sendable = false;
 
 void setup()
 {
@@ -30,10 +29,10 @@ void setup()
 void loop()
 {
   int curDistance = sensor.readRangeContinuousMillimeters();
-  if (curDistance != lastDistance && curDistance <= 550) {
+  if (curDistance != lastDistance && curDistance <= 1000) {
     Serial.println(curDistance);
   }
-  if (curDistance != lastDistance && curDistance > 550) {
+  if (curDistance != lastDistance && curDistance > 1000) {
     Serial.println(0);
   }
   lastDistance = curDistance;

@@ -8,6 +8,7 @@
 #include <VL53L0X.h>
 
 VL53L0X sensor;
+
 int lastDistance = 0;
 int curDistance = 0;
 
@@ -28,11 +29,11 @@ void setup()
 
 void loop()
 {
-  int curDistance = sensor.readRangeContinuousMillimeters();
-  if (curDistance != lastDistance && curDistance <= 1000) {
+  int curDistance = sensor.readRangeSingleMillimeters();
+  if (curDistance != lastDistance && curDistance <= 500) {
     Serial.println(curDistance);
   }
-  if (curDistance != lastDistance && curDistance > 1000) {
+  if (curDistance != lastDistance && curDistance > 500) {
     Serial.println(0);
   }
   lastDistance = curDistance;
